@@ -1,0 +1,47 @@
+server:
+  port: 7000
+  servlet:
+    session.timeout: 300
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+
+spring:
+  #Druid
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/rbac_db?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+
+  #Thymeleaf
+  thymeleaf:
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    template-resolver-order: 0
+    cache: false
+
+  #redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: 100000
+        max-idle: 8
+        min-idle: 0
+
+
+
+
+#mybatis
+mybatis:
+  type-aliases-package: com.liziyuan.hope.oauth.db.mapper
+  mapper-locations: classpath:com/liziyuan/hope/oauth/das/mapper/xml/*.xml

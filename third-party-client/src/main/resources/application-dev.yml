@@ -1,0 +1,26 @@
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+own:
+  oauth2:
+    access-token-uri: http://127.0.0.1:7000/oauth2.0/token?client_id={1}&client_secret={2}&grant_type=authorization_code&code={3}&redirect_uri={4}
+    client-id: 9gnffNcXT2hDUXf06w2z1y3e
+    client-secret: qRJJeRgJhypMXa0kwDGxg5coI4sAO1hV
+    resource:
+      userInfoUri: http://127.0.0.1:7000/api/users/getInfo?access_token={1}
+    scope: super
+    user-authorization-uri: http://127.0.0.1:7000/oauth2.0/authorize?client_id={0}&response_type=code&scope=super&&status={1}&redirect_uri={2}
+server:
+  port: 7080
+  servlet:
+    session:
+      timeout: 300
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    template-resolver-order: 0
