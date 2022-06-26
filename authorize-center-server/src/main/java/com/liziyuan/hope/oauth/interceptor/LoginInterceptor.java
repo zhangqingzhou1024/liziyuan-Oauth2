@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * 定义一些页面需要做登录检查
+ * "/user/**", "/oauth2.0/authorizePage", "/oauth2.0/authorize", "/sso/token"
  *
  * @author zqz
  * @date 2022/6/26

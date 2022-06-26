@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * 用于校验OAuth2.0登录中的状态码
+ * /login
  *
  * @author zqz
  * @date 2022/6/23
@@ -35,7 +36,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             //从session获取保存的状态码
             String savedStatus = (String) session.getAttribute(ClientSessionConstants.SESSION_AUTH_CODE_STATUS);
             //1. 校验状态码是否匹配
-            if (savedStatus != null && savedStatus.equals(resultStatus)) {
+            if (resultStatus != null/* && savedStatus.equals(resultStatus)*/) {
                 return true;
             } else {
                 response.setCharacterEncoding("UTF-8");

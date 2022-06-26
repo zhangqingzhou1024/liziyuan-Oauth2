@@ -129,6 +129,7 @@ public class OauthController {
         if(null == authClientDetails){
             throw new IllegalAccessException("client_id : "+clientIdStr+" 对应的客户端信息不存在！");
         }
+        // http://127.0.0.1:7080/login
         String redirectUrl = authClientDetails.getRedirectUri();
         //权限范围
         String scopeStr = request.getParameter("scope");

@@ -3,6 +3,7 @@ package com.liziyuan.hope.oauth.interceptor;
 import com.liziyuan.hope.oauth.common.SpringContextUtils;
 import com.liziyuan.hope.oauth.common.constans.SessionConstants;
 import com.liziyuan.hope.oauth.common.enums.ErrorCodeEnum;
+import com.liziyuan.hope.oauth.common.utils.FieldUtils;
 import com.liziyuan.hope.oauth.common.utils.JsonUtils;
 import com.liziyuan.hope.oauth.das.mapper.AuthClientDetailsMapper;
 import com.liziyuan.hope.oauth.das.mapper.AuthClientUserMapper;
@@ -11,8 +12,6 @@ import com.liziyuan.hope.oauth.das.model.AuthClientDetails;
 import com.liziyuan.hope.oauth.das.model.AuthClientUser;
 import com.liziyuan.hope.oauth.das.model.AuthScope;
 import com.liziyuan.hope.oauth.das.model.User;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.annotation.Resource;
@@ -24,6 +23,7 @@ import java.util.Map;
 
 /**
  * 检查是否已经存在授权
+ * /oauth2.0/authorize
  *
  * @author zqz
  * @date 2022/6/10
@@ -55,7 +55,7 @@ public class OauthInterceptor extends HandlerInterceptorAdapter {
         //获取session中存储的token
         User user = (User) session.getAttribute(SessionConstants.SESSION_USER);
 
-        if (StringUtils.isNoneBlank(clientIdStr) && StringUtils.isNoneBlank(scopeStr) && StringUtils.isNoneBlank(redirectUri) && "code".equals(responseType)) {
+        if (!FieldUtils.isHaveEmpty(clientIdStr, redirectUri, scopeStr) && "code".equals(responseType)) {
             params = params + "&client_id=" + clientIdStr + "&scope=" + scopeStr;
 
             //1. 查询是否存在授权信息
@@ -77,6 +77,8 @@ public class OauthInterceptor extends HandlerInterceptorAdapter {
             //2. 查询用户给接入的客户端是否已经授权
             AuthClientUser clientUser = authClientUserMapper.selectByClientId(clientDetails.getId(), user.getId(), scope.getId());
             if (clientUser != null) {
+                // return this.generateErrorResponse(response, ErrorCodeEnum.REPEAT_AUTHORIZE);
+                //response.sendRedirect(request.getContextPath() + "/oauth2.0/authorizePage" + params);
                 return true;
             } else {
                 //如果没有授权，则跳转到授权页面

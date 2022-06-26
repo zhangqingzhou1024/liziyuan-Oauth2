@@ -1,7 +1,7 @@
 package com.liziyuan.hope.client.interceptor;
 
-import com.liziyuan.hope.client.common.constans.ClientSessionConstants;
 import com.liziyuan.hope.client.common.SpringContextUtils;
+import com.liziyuan.hope.client.common.constans.ClientSessionConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * 定义一些页面需要做登录检查
+ * /user/**
  *
  * @author zqz
  * @date 2022/6/26

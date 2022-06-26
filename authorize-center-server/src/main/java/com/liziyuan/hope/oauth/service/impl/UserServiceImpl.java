@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> checkLogin(String username, String password) {
         //返回信息
         Map<String, Object> result = new HashMap<>(2);
-        log.info("用户登录 --> username:{},password:{}", username, password);
+        log.info("用户登录 --> username:{}, password:{}", username, password);
 
         User correctUser = userMapper.selectByUsername(username);
         result.put("result", EncryptUtils.checkSha256Crypt(password, correctUser.getPassword()));

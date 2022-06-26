@@ -4,8 +4,8 @@ import com.liziyuan.hope.client.common.constans.ClientSessionConstants;
 import com.liziyuan.hope.client.common.model.AuthorizationResponse;
 import com.liziyuan.hope.client.common.model.User;
 import com.liziyuan.hope.client.common.utils.EncryptUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +24,7 @@ import java.text.MessageFormat;
  * @date 2022/6/9
  * @since 1.0.0
  */
+@Slf4j
 @Controller
 public class ClientLoginController {
 
@@ -71,7 +72,7 @@ public class ClientLoginController {
         String currentUrl = request.getRequestURL().toString();
 
         //code为空，则说明当前请求不是认证服务器的回调请求，则重定向URL到认证服务器登录
-        if (StringUtils.isBlank(code)) {
+         if (StringUtils.isBlank(code)) {
             //如果存在回调URL，则将这个URL添加到session
             if (StringUtils.isNoneBlank(redirectUrl)) {
                 session.setAttribute(ClientSessionConstants.SESSION_LOGIN_REDIRECT_URL, redirectUrl);
@@ -86,11 +87,9 @@ public class ClientLoginController {
             //2. 通过Authorization Code获取Access Token
             AuthorizationResponse response = restTemplate.getForObject(accessTokenUri, AuthorizationResponse.class
                     , clientId, clientSecret, code, currentUrl);
-            System.out.printf("AuthorizationResponse => "+response.toString());
+            log.info("AuthorizationResponse => {}", response);
             //如果正常返回
             if (StringUtils.isNoneBlank(response.getAccess_token())) {
-                System.out.println(response);
-
                 //2.1 将Access Token存到session
                 session.setAttribute(ClientSessionConstants.SESSION_ACCESS_TOKEN, response.getAccess_token());
 

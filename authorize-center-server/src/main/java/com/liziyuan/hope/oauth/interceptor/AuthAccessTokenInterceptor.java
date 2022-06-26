@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * 用于校验Access Token是否为空以及Access Token是否已经失效
+ * /api/**
  *
  * @author zqz
  * @date 2022/6/22
