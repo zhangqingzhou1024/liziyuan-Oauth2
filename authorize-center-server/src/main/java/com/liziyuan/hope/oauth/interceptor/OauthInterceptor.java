@@ -4,7 +4,7 @@ import com.liziyuan.hope.oauth.common.SpringContextUtils;
 import com.liziyuan.hope.oauth.common.constans.SessionConstants;
 import com.liziyuan.hope.oauth.common.enums.ErrorCodeEnum;
 import com.liziyuan.hope.oauth.common.utils.FieldUtils;
-import com.liziyuan.hope.oauth.common.utils.JsonUtils;
+import com.liziyuan.hope.oauth.common.utils.SystemErrorUtils;
 import com.liziyuan.hope.oauth.das.mapper.AuthClientDetailsMapper;
 import com.liziyuan.hope.oauth.das.mapper.AuthClientUserMapper;
 import com.liziyuan.hope.oauth.das.mapper.AuthScopeMapper;
@@ -18,8 +18,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 检查是否已经存在授权
@@ -63,15 +61,15 @@ public class OauthInterceptor extends HandlerInterceptorAdapter {
             AuthScope scope = authScopeMapper.selectByScopeName(scopeStr);
 
             if (clientDetails == null) {
-                return this.generateErrorResponse(response, ErrorCodeEnum.INVALID_CLIENT);
+                return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_CLIENT);
             }
 
             if (scope == null) {
-                return this.generateErrorResponse(response, ErrorCodeEnum.INVALID_SCOPE);
+                return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_SCOPE);
             }
 
             if (!clientDetails.getRedirectUri().equals(redirectUri)) {
-                return this.generateErrorResponse(response, ErrorCodeEnum.REDIRECT_URI_MISMATCH);
+                return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.REDIRECT_URI_MISMATCH);
             }
 
             //2. 查询用户给接入的客户端是否已经授权
@@ -86,22 +84,7 @@ public class OauthInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
         } else {
-            return this.generateErrorResponse(response, ErrorCodeEnum.INVALID_REQUEST);
+            return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_REQUEST);
         }
     }
-
-    /**
-     * 组装错误请求的返回
-     */
-    private boolean generateErrorResponse(HttpServletResponse response, ErrorCodeEnum errorCodeEnum) throws Exception {
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-type", "application/json;charset=UTF-8");
-        Map<String, String> result = new HashMap<>(2);
-        result.put("error", errorCodeEnum.getError());
-        result.put("error_description", errorCodeEnum.getErrorDescription());
-
-        response.getWriter().write(JsonUtils.toJson(result));
-        return false;
-    }
-
 }

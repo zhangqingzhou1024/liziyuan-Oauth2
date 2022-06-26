@@ -3,6 +3,7 @@ package com.liziyuan.hope.oauth.interceptor;
 import com.liziyuan.hope.oauth.common.enums.ErrorCodeEnum;
 import com.liziyuan.hope.oauth.common.utils.DateUtils;
 import com.liziyuan.hope.oauth.common.utils.JsonUtils;
+import com.liziyuan.hope.oauth.common.utils.SystemErrorUtils;
 import com.liziyuan.hope.oauth.das.model.AuthAccessToken;
 import com.liziyuan.hope.oauth.service.AuthorizationService;
 import org.apache.commons.lang3.StringUtils;
@@ -46,27 +47,13 @@ public class AuthAccessTokenInterceptor extends HandlerInterceptorAdapter {
                 LocalDateTime nowDateTime = DateUtils.now();
 
                 //如果Access Token已经失效，则返回错误提示
-                return expiresDateTime.isAfter(nowDateTime) || this.generateErrorResponse(response, ErrorCodeEnum.EXPIRED_TOKEN);
+                return expiresDateTime.isAfter(nowDateTime) || SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.EXPIRED_TOKEN);
             } else {
-                return this.generateErrorResponse(response, ErrorCodeEnum.INVALID_GRANT);
+                return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_GRANT);
             }
         } else {
-            return this.generateErrorResponse(response, ErrorCodeEnum.INVALID_REQUEST);
+            return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_REQUEST);
         }
-    }
-
-    /**
-     * 组装错误请求的返回
-     */
-    private boolean generateErrorResponse(HttpServletResponse response, ErrorCodeEnum errorCodeEnum) throws Exception {
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-type", "application/json;charset=UTF-8");
-        Map<String, String> result = new HashMap<>(2);
-        result.put("error", errorCodeEnum.getError());
-        result.put("error_description", errorCodeEnum.getErrorDescription());
-
-        response.getWriter().write(JsonUtils.toJson(result));
-        return false;
     }
 
 }

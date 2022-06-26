@@ -2,9 +2,12 @@ package com.liziyuan.hope.oauth.service.impl;
 
 import com.liziyuan.hope.oauth.common.SpringContextUtils;
 import com.liziyuan.hope.oauth.common.constans.SessionConstants;
+import com.liziyuan.hope.oauth.common.enums.ErrorCodeEnum;
 import com.liziyuan.hope.oauth.common.enums.ExpireEnum;
 import com.liziyuan.hope.oauth.common.utils.DateUtils;
 import com.liziyuan.hope.oauth.common.utils.EncryptUtils;
+import com.liziyuan.hope.oauth.common.utils.FieldUtils;
+import com.liziyuan.hope.oauth.common.utils.SystemErrorUtils;
 import com.liziyuan.hope.oauth.das.mapper.*;
 import com.liziyuan.hope.oauth.das.model.*;
 import com.liziyuan.hope.oauth.service.AuthorizationService;
@@ -12,9 +15,13 @@ import com.liziyuan.hope.oauth.service.RedisService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -230,5 +237,37 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         //4. 返回Refresh Token
         return refreshTokenStr;
     }
+
+    @Override
+    public Boolean verifyToken(String accessToken) throws Exception {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert attr != null;
+        HttpServletResponse response = attr.getResponse();
+        assert response != null;
+        if (FieldUtils.isEmpty(accessToken)) {
+            return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_REQUEST);
+        }
+
+        //查询数据库中的Access Token
+        AuthAccessToken authAccessToken = authAccessTokenMapper.selectByAccessToken(accessToken);
+
+        if (authAccessToken != null) {
+            Long savedExpiresAt = authAccessToken.getExpiresIn();
+            //过期日期
+            LocalDateTime expiresDateTime = DateUtils.ofEpochSecond(savedExpiresAt, null);
+            //当前日期
+            LocalDateTime nowDateTime = DateUtils.now();
+
+            //如果Access Token已经失效，则返回错误提示
+            boolean after = expiresDateTime.isAfter(nowDateTime);
+            if (!after) {
+                return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.EXPIRED_TOKEN);
+            }
+            return true;
+        } else {
+            return SystemErrorUtils.generateErrorResponse(response, ErrorCodeEnum.INVALID_GRANT);
+        }
+    }
+
 
 }

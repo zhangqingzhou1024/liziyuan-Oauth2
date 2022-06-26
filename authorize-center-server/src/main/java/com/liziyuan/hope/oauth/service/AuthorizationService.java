@@ -133,4 +133,11 @@ public interface AuthorizationService {
      * @since 1.0.0
      */
     String createRefreshToken(User user, AuthAccessToken authAccessToken);
+
+    /**
+     * 验证 accessToken 是否合法
+     *
+     * @param accessToken accessToken
+     */
+    Boolean verifyToken(String accessToken) throws Exception;
 }

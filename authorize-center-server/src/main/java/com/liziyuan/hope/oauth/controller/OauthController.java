@@ -61,16 +61,7 @@ public class OauthController {
     @PostMapping(value = "/clientRegister", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public AuthClientDetails clientRegister(@RequestBody(required = true) AuthClientDetails clientDetails) throws IllegalAccessException {
-
         return authorizationService.register(clientDetails);
-       /* if(registerRet){
-            result.put("code","200");
-        }else{
-            result.put("code","500");
-            result.put("msg","注册失败");
-        }
-
-        return result;*/
     }
 
     /**
