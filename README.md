@@ -105,8 +105,8 @@ OAuth（开放授权）是一个开放标准，允许用户授权第三方移动
 
 ```json
 {
-	"access_token": "1.6659c9d38f5943f97db334874e5229284cdd1523.2592000.1537600367",
-	"refresh_token": "2.b19923a01cf35ccab48ddbd687750408bd1cb763.31536000.1566544316",
+	"access_token": "1.8937ec3167e27c675b8c9450810dc666438d73aa.2592000.1658780004",
+	"refresh_token": "2.4d12a466d6fb1ef65e8148c93f490b47adcace98.31536000.1687724004",
 	"expires_in": 2592000,
 	"scope": "basic"
 }

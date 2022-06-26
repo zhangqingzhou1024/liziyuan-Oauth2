@@ -213,9 +213,9 @@ public class OauthController {
         String grantType = request.getParameter("grant_type");
         //前面获取的Authorization Code
         String code = request.getParameter("code");
-        //客户端ID
+        //客户端ID- appKey
         String clientIdStr = request.getParameter("client_id");
-        //接入的客户端的密钥
+        //接入的客户端的密钥 - appSecret
         String clientSecret = request.getParameter("client_secret");
         //回调URL
         String redirectUri = request.getParameter("redirect_uri");

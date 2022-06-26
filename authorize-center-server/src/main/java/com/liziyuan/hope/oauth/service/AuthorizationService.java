@@ -113,7 +113,7 @@ public interface AuthorizationService {
      * @param savedClientDetails 接入的客户端信息
      * @param grantType          授权方式
      * @param scope              允许访问的用户权限范围
-     * @param expiresIn          过期时间
+     * @param expiresIn          过期时间,单位为妙，如 30 *24 * 60 * 60 = 2592000
      * @return java.lang.String
      * @author zqz
      * @date 2022/6/18 17:11

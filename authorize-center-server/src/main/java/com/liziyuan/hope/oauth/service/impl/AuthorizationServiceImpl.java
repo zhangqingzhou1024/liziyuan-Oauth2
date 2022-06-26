@@ -10,7 +10,6 @@ import com.liziyuan.hope.oauth.das.model.*;
 import com.liziyuan.hope.oauth.service.AuthorizationService;
 import com.liziyuan.hope.oauth.service.RedisService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -46,7 +45,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         if (StringUtils.isNoneBlank(clientDetails.getClientName()) && StringUtils.isNoneBlank(clientDetails.getRedirectUri())) {
 
             List<AuthClientDetails> authClientDetails = authClientDetailsMapper.selectByClientName(clientDetails.getClientName());
-            if(!CollectionUtils.isEmpty(authClientDetails)){
+            if (!CollectionUtils.isEmpty(authClientDetails)) {
                 throw new IllegalAccessException("客户端的名称已存在!");
             }
             //生成24位随机的clientId
@@ -137,7 +136,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public String createAuthorizationCode(String clientIdStr, String scopeStr, User user) {
         //1. 拼装待加密字符串（clientId + scope + 当前精确到毫秒的时间戳）
-        String str = clientIdStr + scopeStr + String.valueOf(DateUtils.currentTimeMillis());
+        String str = clientIdStr + scopeStr + DateUtils.currentTimeMillis();
 
         //2. SHA1加密
         String encryptedStr = EncryptUtils.sha1Hex(str);
@@ -158,14 +157,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Long expiresAt = DateUtils.nextDaysSecond(ExpireEnum.ACCESS_TOKEN.getTime(), null);
 
         //1. 拼装待加密字符串（username + clientId + 当前精确到毫秒的时间戳）
-        String str = user.getUsername() + savedClientDetails.getClientId() + String.valueOf(DateUtils.currentTimeMillis());
+        String str = user.getUsername() + savedClientDetails.getClientId() + DateUtils.currentTimeMillis();
 
         //2. SHA1加密
         String accessTokenStr = "1." + EncryptUtils.sha1Hex(str) + "." + expiresIn + "." + expiresAt;
 
         //3. 保存Access Token
-        AuthAccessToken savedAccessToken = authAccessTokenMapper.selectByUserIdClientIdScope(user.getId()
-                , savedClientDetails.getId(), scope);
+        AuthAccessToken savedAccessToken = authAccessTokenMapper
+                .selectByUserIdClientIdScope(user.getId(), savedClientDetails.getId(), scope);
         //如果存在userId + clientId + scope匹配的记录，则更新原记录，否则向数据库中插入新记录
         if (savedAccessToken != null) {
             savedAccessToken.setAccessToken(accessTokenStr);
@@ -202,7 +201,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Long expiresAt = DateUtils.nextDaysSecond(ExpireEnum.REFRESH_TOKEN.getTime(), null);
 
         //1. 拼装待加密字符串（username + accessToken + 当前精确到毫秒的时间戳）
-        String str = user.getUsername() + authAccessToken.getAccessToken() + String.valueOf(DateUtils.currentTimeMillis());
+        String str = user.getUsername() + authAccessToken.getAccessToken() + DateUtils.currentTimeMillis();
 
         //2. SHA1加密
         String refreshTokenStr = "2." + EncryptUtils.sha1Hex(str) + "." + expiresIn + "." + expiresAt;
