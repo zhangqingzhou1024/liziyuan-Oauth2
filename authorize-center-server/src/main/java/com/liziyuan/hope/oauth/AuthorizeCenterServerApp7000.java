@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ServletComponentScan
 @EnableAsync
 @MapperScan("com.liziyuan.hope")
-public class AuthorizeCenterServerApplication {
+public class AuthorizeCenterServerApp7000 {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(AuthorizeCenterServerApplication.class);
+        SpringApplication application = new SpringApplication(AuthorizeCenterServerApp7000.class);
         application.run(args);
         System.out.println(">>>>>>>>>>>>> AuthorizeCenterServerApplication启动成功 端口-》【7000】>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 

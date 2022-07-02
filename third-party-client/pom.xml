@@ -29,9 +29,15 @@
         <fastjson>1.2.47</fastjson>
         <!-- Java Servlet API -->
         <javax.servlet-api>4.0.1</javax.servlet-api>
+        <log.tracing.version>1.0.0-SNAPSHOT</log.tracing.version>
     </properties>
 
     <dependencies>
+       <!-- <dependency>
+            <groupId>com.liziyuan.hope</groupId>
+            <artifactId>log-manager-server-tracing</artifactId>
+            <version>${log.tracing.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

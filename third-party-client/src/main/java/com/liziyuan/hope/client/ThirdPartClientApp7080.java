@@ -7,10 +7,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @ServletComponentScan
-public class ThirdPartClientApplication {
+public class ThirdPartClientApp7080 {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(ThirdPartClientApplication.class);
+        SpringApplication application = new SpringApplication(ThirdPartClientApp7080.class);
         application.setBannerMode(Banner.Mode.CONSOLE);
         application.run(args);
         System.out.println(">>>>>>>>>>>>> ThirdPartClientApplication 启动成功 端口-》【7080】>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

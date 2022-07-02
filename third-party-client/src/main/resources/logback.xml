@@ -4,14 +4,14 @@
     <property name="PROJECT_NAME" value="third-party-client"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5p [%file:%line] - %m%n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [traceId: %X{traceId}] [%thread] %-5p [%file:%line] - %m%n
             </pattern>
         </encoder>
     </appender>
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${LOG_DIR}/${PROJECT_NAME}_app.log</File>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5p [%file:%line] - %m%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [traceId: %X{traceId}] [%thread] %-5p [%file:%line] - %m%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIR}/${PROJECT_NAME}_app.%d{yyyy-MM-dd}.log</fileNamePattern>
