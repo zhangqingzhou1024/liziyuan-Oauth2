@@ -10,6 +10,8 @@ import java.util.Random;
 
 /**
  * 加密相关公共方法
+ *  此版本都是单向加密，不可逆！
+ *
  *
  * @author zqz
  * @date 2022/6/31
@@ -201,23 +203,28 @@ public class EncryptUtils {
     }
 
     public static void main(String[] args) throws GeneralSecurityException, IOException {
-        String secret = "secret";
+       /* String secret = "secret";
         String value = "a=1&b=2";
 
-//        System.out.println("sha256Hex:" + sha256Hex(value)); //8e85be58c1c372ac29fe7bfa80d8ddcbd04a4032c7b51c1c026d67c55b1ab23f
-//        System.out.println("sha512Hex:" + sha512Hex(value)); //ab6c1ec7849e98af8d50f0bdb6221e3063fea57f8184b98acbe0b21190201032608b8c7f140a7f10699d39c21b6026bb8609668c98b73dc4e723c8d67625a698
-//        System.out.println();
-//
-//        System.out.println("hmacSha256:" + hmacSha256(secret,value)); //604fe97c66c6393ff22e3cae366eee1131e351ebc736bf12f5d62e1755b7a233
-//        System.out.println("hmacSha512:" + hmacSha512(secret,value)); //785d7084675f5b7fa7222b1aed28705aa6868ca4b654418f05cbfdf24f6b815d92e5ac964ae579e72eedbe48ac144dd3b5e852787a00d5c0479ce7767a192d38
-//        System.out.println();
-//
-//        System.out.println("sha256Crypt:" + sha256Crypt(value,null)); //$5$yDFqXV2l$KoNVx2GncH3mudhy0p7XFj76U1r/ZCIgZgRcNpLLaRD
-//        System.out.println("sha512Crypt:" + sha512Crypt(value,null)); //$6$Z3Kab83Y$buAShiexlMZsTC1dnw.ogPE9ig/6fGo2gMlzO36u2haOKKXl1fA0RpH//3/tNoudSJv25nmbWHACcQZYdSUji1
+        System.out.println("sha256Hex:" + sha256Hex(value)); //8e85be58c1c372ac29fe7bfa80d8ddcbd04a4032c7b51c1c026d67c55b1ab23f
+        System.out.println("sha512Hex:" + sha512Hex(value)); //ab6c1ec7849e98af8d50f0bdb6221e3063fea57f8184b98acbe0b21190201032608b8c7f140a7f10699d39c21b6026bb8609668c98b73dc4e723c8d67625a698
+        System.out.println();
 
-//        System.out.println(sha256Crypt("admin",null));
-//        System.out.println(sha256Crypt("123456",null));
-//        System.out.println(hmacMd5Hex("8e85be58c1c372ac29fe7bfa","e3c"));
+        System.out.println("hmacSha256:" + hmacSha256(secret,value)); //604fe97c66c6393ff22e3cae366eee1131e351ebc736bf12f5d62e1755b7a233
+        System.out.println("hmacSha512:" + hmacSha512(secret,value)); //785d7084675f5b7fa7222b1aed28705aa6868ca4b654418f05cbfdf24f6b815d92e5ac964ae579e72eedbe48ac144dd3b5e852787a00d5c0479ce7767a192d38
+        System.out.println();
+
+        System.out.println("sha256Crypt:" + sha256Crypt(value,null)); //$5$yDFqXV2l$KoNVx2GncH3mudhy0p7XFj76U1r/ZCIgZgRcNpLLaRD
+        System.out.println("sha512Crypt:" + sha512Crypt(value,null)); //$6$Z3Kab83Y$buAShiexlMZsTC1dnw.ogPE9ig/6fGo2gMlzO36u2haOKKXl1fA0RpH//3/tNoudSJv25nmbWHACcQZYdSUji1
+
+        System.out.println(sha256Crypt("admin",null));
+        System.out.println(sha256Crypt("123456",null));
+        System.out.println(hmacMd5Hex("8e85be58c1c372ac29fe7bfa","e3c"));*/
+
+        String source = "hello world!";
+        String sha256Crypt = sha256Crypt(source, null);
+        System.out.println(sha256Crypt);
+
 
     }
 
